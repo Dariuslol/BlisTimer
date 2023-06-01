@@ -1,0 +1,64 @@
+﻿.main{
+    color: white;
+    padding: 0;
+    margin: 0;
+    font-family: "TT Commons", sans-serif;
+}
+
+h1{
+    font-weight: 600;
+    text-align: center;
+}
+
+#container{
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#formBox{
+    border-radius: 7px;
+    background-color: var(--blis-purple-lighter);
+    padding: 4%;
+}
+#labelBox{
+    display: flex;
+    justify-content: space-between;
+    margin: 2vh auto 0 auto;
+    width: 70%;
+}
+#inputBox{
+    display: flex;
+    justify-content: space-between;
+    margin: 1vh auto;
+}
+#submitBox{
+    display: flex;
+    justify-content: center;
+    margin: 6vh auto 0 auto;
+    width: 60%;
+}
+input[type=time]:active, input[type=time]:focus{
+    outline: 3px solid var(--blis-cyan);
+}
+
+input[type=submit]{
+    width: 20rem;
+    border: 2px solid white;
+    background-color: transparent;
+    border-radius: 1vh;
+    padding: 1%;
+    color: rgba(255,255,255,1);
+    font-weight: 500;
+    transition: 1s ease-out;
+}
+
+input[type=submit]:hover{
+    background-color: var(--blis-cyan);
+}
+
+@media (max-width: 1265px) {
+    #container {
+        height: calc(100vh - 50px);
+    }
+}

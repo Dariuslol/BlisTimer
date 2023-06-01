@@ -1,0 +1,47 @@
+﻿@model Domain.Models.TimeLog
+
+@{
+    ViewData["Title"] = "Edit Timelog Page";
+}
+
+<style>
+    #inputBox input {
+        width: 170px;
+        padding-left: 20px;
+        border: none;
+        border-radius: 1em;
+        margin: 0 2%;
+    }
+</style>
+
+<div class="main">
+    <div id="container">
+        <div id="formBox">
+            <form asp-controller="TimeLog" method="post">
+                <div id="labelBox">
+                    <label>Start time:</label>
+                    <label>End time:</label>
+                </div>
+                <div id="inputBox">
+                    <input id="st" type="datetime-local" asp-for="StartTime" max="@ViewBag.cet" value="@ViewBag.start" required />
+                    <input id="et" type="datetime-local" asp-for="EndTime" min="@ViewBag.min" max="@ViewBag.max" value="@ViewBag.end" required />
+                </div>
+                <div id="submitBox">
+                    <input type="submit" value="Save changes">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    //start date/time changes -> end Date/time change aswell
+    document.getElementById("st").addEventListener("change", function(){
+        document.getElementById("et").min = document.getElementById("st").value;
+    });
+
+    //end date/time changes -> start Date/time change aswell
+    document.getElementById("et").addEventListener("change", function () {
+        document.getElementById("st").max = document.getElementById("et").value;
+    });
+</script>

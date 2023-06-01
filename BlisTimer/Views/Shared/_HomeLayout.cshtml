@@ -1,0 +1,140 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>@ViewData["Title"] - BlisTimer</title>
+	<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+	<link rel="stylesheet" href="~/BlisTimer.styles.css" asp-append-version="true" />
+	<link rel="icon" type="image/png" href="~/favicon-32x32.png"/>
+	@RenderSection("head", required: false)
+</head>
+<style>@RenderSection("style", required: false)</style>
+<style>
+	nav ul li a img {
+		width: 37px;
+		height: 37px;
+	}
+
+	#hide-button:not(:is(#hide-button.hide)):hover img,
+	nav:hover ~ #hide-button:not(:is(#hide-button.hide)) img {
+		translate: 0 -19px;
+	}
+	#hide-button img {
+		transition: all 0.5s ease;
+		filter: invert(100%);
+		width: 30px;
+		left: 10px;
+	}
+</style>
+<body>
+
+<!-- 
+Nav bar container that floats above the main page content container.
+-->
+<div id="nav-menu-wrapper">
+	<nav>
+		<ul>
+			<li>
+				<a href="@Url.Action("Index", "Timer")">
+					<img src="~/icons/timer-icon.svg" alt="Picture of a timer with clock"/>
+					<span>Timer</span>
+				</a>
+			</li>
+			<li>
+				<a href="@Url.Action("Index", "TimeLog")">
+					<img src="~/icons/overview-icon.svg" alt="Picture resembling sending something"/>
+					<span>Overview</span>
+				</a>
+			</li>
+			<li>
+				<a href="@Url.Action("Index", "Settings")">
+					<img src="~/icons/settings-icon.svg" alt="A gear resembling settings"/>
+					<span>Settings</span>
+				</a>
+			</li>
+			<li>
+				<a href="@Url.Action("Index", "Login")" style="color: red">
+					<img src="~/icons/logout-icon.svg" alt="An icon of a person"/>
+					<span>Logout</span>
+				</a>
+			</li>
+		</ul>
+	</nav>
+	<div id="hide-button">
+		<img src="~/icons/hide-icon.svg" alt="An icon of something getting hidden"/>
+	</div>
+</div>
+
+<!-- Main page content container that contains the view's content -->
+<main>
+	@RenderBody()
+</main>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+@await RenderSectionAsync("Scripts", required: false)
+
+<script>
+	navbar = document.getElementById("nav-menu-wrapper");
+	hideButton = document.getElementById("hide-button");
+	
+	hideButton.addEventListener("click", function() {
+		navbar.classList.toggle("hide");
+		hideButton.classList.toggle("hide");
+	});
+</script>
+<script>
+	var bgTimerSeconds = 0;
+	var notificationInterval = 0;
+	var notificationEnabled = false;
+	
+	$.ajax({
+		url: "/Timer/GetRunningTimer",
+		type: "GET",
+		success: function(data) {
+			if (data.running === true 
+			&& window.location.pathname !== "/Timer"
+			&& window.location.pathname !== "/Timer/Index"
+			&& window.location.pathname !== "/"
+			&& window.location.pathname !== "") {
+				bgTimerSeconds = data.time;
+				notificationInterval = data.notificationInterval;
+				notificationEnabled = data.notificationEnabled;
+				startCounting();
+			}
+		}
+	});
+	
+	function startCounting() {
+		// Create a mini timer that sits in the top right corner of the screen
+		// adding styling with javascript.
+		let timerDiv = document.createElement("div");
+		timerDiv.id = "bg-timer";
+		timerDiv.onclick = function() {
+			window.location.href = "/Timer";
+		};
+		document.body.appendChild(timerDiv)
+		updateTimer();
+		
+		function updateTimer() {
+			let hrs = Math.floor(bgTimerSeconds / 3600);
+			let mins = Math.floor((bgTimerSeconds - (hrs * 3600)) / 60);
+			let secs = bgTimerSeconds % 60;
+			  
+			if (secs < 10) secs = "0" + secs;
+			if (mins < 10) mins = "0" + mins;
+			if (hrs < 10) hrs = "0" + hrs;
+			
+      		timerDiv.innerText = `${hrs}:${mins}:${secs}`;	
+		}
+		
+		setInterval(function() {
+			bgTimerSeconds++;
+				
+			updateTimer()			
+		}, 1000);
+	}
+</script>
+</body>
+</html>

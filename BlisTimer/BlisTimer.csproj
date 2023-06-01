@@ -1,0 +1,54 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.9">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.9">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="6.0.7" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SimplicateAPI\SimplicateAPI.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Views\TimeLog\Add.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\TimeLog\index.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Projects\Add.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Projects\index.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\_old\Employee\Add.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\_old\Employee\index.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\_old\TimeLog\Add.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\_old\TimeLog\index.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\_old\Projects\Add.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\_old\Projects\index.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Home\Index.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Employee\Add.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Employee\index.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="Views\TimeLog\index.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="Views\Projects\index.cshtml.css">
+      <DependentUpon>index.cshtml</DependentUpon>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Migrations\20230107235307_InitalDb.Designer.cs" />
+  </ItemGroup>
+</Project>
